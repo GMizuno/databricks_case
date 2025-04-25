@@ -7,11 +7,9 @@ def write_json(data: list[dict], filename: str):
     with open(filename, 'w', encoding='utf-8') as json_file:
         json.dump(data, json_file, ensure_ascii=False, indent=4)
 
-
 def write_parquet(data: list[dict], filename: str):
     df = pd.DataFrame(data)
     df.to_parquet(filename, index=False)
-
 
 def gather_data_by_date(data: list[dict], date_key: str):
     grouped_data = {}

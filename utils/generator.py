@@ -5,6 +5,11 @@ from typing import Optional, TYPE_CHECKING
 if TYPE_CHECKING:
     from faker import Faker
 
+ESTADOS_UF = [
+    'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA',
+    'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN',
+    'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
+]
 
 def random_latitude():
     return round(random.uniform(-33.7, 5.3), 6)
@@ -23,15 +28,28 @@ def criar_loja(tipos_lojas: list[str], fake: "Faker") -> dict:
     }
 
 
+def criar_cliente(tipos_clientes: list[str], fake: "Faker") -> dict:
+    return {
+        "client_id": fake.uuid4(),
+        "tipo": random.choice(tipos_clientes),
+        "estado": random.choice(ESTADOS_UF),
+        "nome": fake.name(),
+    }
+
+
 def criar_lojas(qtd_lojas: int, tipos_lojas: list[str], fake: "Faker") -> list[dict]:
     return [criar_loja(tipos_lojas, fake) for _ in range(qtd_lojas)]
 
 
-def criar_pedido(loja: dict, fake: "Faker", status_pedido_choices, status_pedido_weights, dates: Optional[dict]) -> dict:
+def criar_clientes(qtd_clientes: int, tipos_clientes: list[str], fake: "Faker") -> list[dict]:
+    return [criar_cliente(tipos_clientes, fake) for _ in range(qtd_clientes)]
+
+
+def criar_pedido(loja: dict, cliente: dict, fake: "Faker", status_pedido_choices, status_pedido_weights, dates: Optional[dict] =  None) -> dict:
     entrega_id = fake.uuid4()
     pedido_id = fake.uuid4()
 
-    if dict is None:
+    if dates is None:
         start_date = datetime(2024, 1, 1)
         end_date = datetime(2025, 3, 29)
     else:
@@ -45,7 +63,7 @@ def criar_pedido(loja: dict, fake: "Faker", status_pedido_choices, status_pedido
         "pedido_id": pedido_id,
         "loja_id": loja["loja_id"],
         "entrega_id": None if status in ["em processamento", "cancelado"] else entrega_id,
-        "cliente": fake.name(),
+        "cliente_id": cliente["client_id"],
         "status": status,
         "data_pedido": data_pedido.strftime('%Y-%m-%d %H:%M:%S'),
         "qtd_produto": random.randint(1, 10),
@@ -54,8 +72,8 @@ def criar_pedido(loja: dict, fake: "Faker", status_pedido_choices, status_pedido
     }
 
 
-def criar_pedidos(qtd_pedidos: int, lojas: list[dict], fake: "Faker", status_pedido_choices, status_pedido_weights, dates) -> list[dict]:
-    return [criar_pedido(random.choice(lojas), fake, status_pedido_choices, status_pedido_weights, dates) for _ in range(qtd_pedidos)]
+def criar_pedidos(qtd_pedidos: int, lojas: list[dict], clientes: list[dict], fake: "Faker", status_pedido_choices, status_pedido_weights, dates = None) -> list[dict]:
+    return [criar_pedido(random.choice(lojas), random.choice(clientes), fake, status_pedido_choices, status_pedido_weights, dates) for _ in range(qtd_pedidos)]
 
 
 def criar_entrega(pedido: dict, tipos_veiculo) -> Optional[dict]:

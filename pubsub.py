@@ -27,7 +27,6 @@ def publish_json_message(publisher, project_id, topic_name, message_dict):
     print(f"Mensagem publicada com ID: {future.result()}")
 
 if __name__ == "__main__":
-    # Replace these with your project and topic details
     project_id = "databricks-estudo"
     topic_name = "databrick_files"
     print(f'Publicando no topico {topic_name}')

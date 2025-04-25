@@ -2,9 +2,9 @@
 
 ## Objetivo
 
-Simular um fluxo de um Ecommerce que ira contabilizar pedidos separados por status, tipo de loja e tipo de entrega. Por fim tbm será usado Terraform para criar uma conexão no GCS (Google Cloud Storage).
+Simular um fluxo de um Ecommerce que irá contabilizar pedidos separados por status, tipo de loja e tipo de entrega. Por fim, também será usado Terraform para criar uma conexão no GCS (Google Cloud Storage).
 
-Dentro do Databricks, será feito uma atulização incremental usando comando **COPY INTO**, dessa forma não será nessário configurar nenhum codigo SQL/Pyspark para capturar novos arquivos. 
+Dentro do Databricks, será feito uma atualização incremental usando comando **COPY INTO**, dessa forma não será necessário configurar nenhum código SQL/Pyspark para capturar novos arquivos. Para orquestrar todas as transformações necessárias para levar dados de um formato bruto usaremos Jobs  
 
 ## Tabelas e Esquemas
 
