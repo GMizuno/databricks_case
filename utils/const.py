@@ -1,4 +1,0 @@
-TIPOS_LOJA = ["italiano", "japones", "fastfood", "arabe", "distribuidora de bebida"]
-STATUS_PEDIDO_CHOICES = ["faturado", "em processamento", "cancelado"]
-STATUS_PEDIDO_WEIGHTS = [0.8, 0.15, 0.05]
-TIPOS_VEICULO = ["moto", "bicicleta", "carro"]
